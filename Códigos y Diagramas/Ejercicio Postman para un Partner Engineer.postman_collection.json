@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "adb7872f-886f-4ef7-8164-1915b8988806",
+		"name": "Ejercicio Postman para un Partner Engineer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38599945"
+	},
+	"item": [
+		{
+			"name": "Obtener Facturas desde API A",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <token>",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://api.sistemaA.com/facturas?fecha_inicio=2023-05-01&fecha_fin=2023-05-31",
+					"protocol": "https",
+					"host": [
+						"api",
+						"sistemaA",
+						"com"
+					],
+					"path": [
+						"facturas"
+					],
+					"query": [
+						{
+							"key": "fecha_inicio",
+							"value": "2023-05-01",
+							"description": "Fecha de inicio para el rango de consulta (Formato: YYYY-MM-DD)."
+						},
+						{
+							"key": "fecha_fin",
+							"value": "2023-05-31",
+							"description": "Fecha de fin para el rango de consulta (Formato: YYYY-MM-DD)."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enviar Facturas a API B",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "<api_key>",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"invoice_id\": \"123\",\n    \"customer\": \"Empresa XYZ\",\n    \"amount_due\": 1500.75,\n    \"date_issued\": \"2023-05-01\",\n    \"status\": \"pagada\"\n}"
+				},
+				"url": {
+					"raw": "https://api.sistemaB.com/bills",
+					"protocol": "https",
+					"host": [
+						"api",
+						"sistemaB",
+						"com"
+					],
+					"path": [
+						"bills"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

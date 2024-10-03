@@ -1,0 +1,107 @@
+openapi: 3.0.1
+info:
+  title: Ejercicio de APIs para un Partner Engineer
+  description: Servicio que permite realizar consultar de facturas por un rango de fechas. El objetivo es integrar 2 APIs. La API A es la API de la cual obtendremos los datos, y la API B es la que queremos alimentar.
+  version: 1.0.0
+servers:
+  - url: https://api.sistemaA.com
+    description: Sistema A Server
+  - url: https://api.sistemaB.com
+    description: Sistema B Server
+paths:
+  /facturas:
+    get:
+      summary: Obtener facturas desde API A
+      description: Consultar facturas de API A según un rango de fechas.
+      operationId: getFacturasSistemaA
+      parameters:
+        - name: fecha_inicio
+          in: query
+          description: Fecha de inicio para el rango de consulta (Formato YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: fecha_fin
+          in: query
+          description: Fecha de fin para el rango de consulta (Formato YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK. La solicitud fue exitosa.        
+        '204':
+          description: No Content. La solicitud fue exitosa, pero no hay contenido en la respuesta.
+        '400':
+          description: Bad Request. La solicitud tiene un error de sintaxis o está malformada.
+        '401':
+          description: Unauthorized. La solicitud requiere autenticación. El cliente debe proporcionar credenciales válidas (Bearer Token, API Key).
+        '403':
+          description: Forbidden. El servidor entiende la solicitud, pero no tiene permiso para ejecutarla (a diferencia del 401, las credenciales no ayudarían).
+        '404':
+          description: Not Found. El servidor no puede encontrar el recurso solicitado.
+        '500':
+          description: Internal Server Error. El servidor ha encontrado una condición inesperada que le impide completar la solicitud.
+        '502':
+          description: Bad Gateway. El servidor, actuando como puerta de enlace o proxy, recibió una respuesta no válida del servidor upstream.
+        '503':
+          description: Service Unavailable. El servidor no puede manejar la solicitud temporalmente, generalmente debido a mantenimiento o sobrecarga.
+        '504':
+          description: Gateway Timeout. El servidor, actuando como puerta de enlace o proxy, no recibió una respuesta a tiempo del servidor upstream.
+      security:
+        - bearerAuth: []  
+  /bills:
+    get:
+      summary: Obtener facturas desde API B
+      description: Consultar facturas de API B según un rango de fechas.
+      operationId: getFacturasSistemaB
+      parameters:
+        - name: start_date
+          in: query
+          description: Fecha de inicio para el rango de consulta (Formato YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: Fecha de fin para el rango de consulta (Formato YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK. La solicitud fue exitosa.        
+        '204':
+          description: No Content. La solicitud fue exitosa, pero no hay contenido en la respuesta.
+        '400':
+          description: Bad Request. La solicitud tiene un error de sintaxis o está malformada.
+        '401':
+          description: Unauthorized. La solicitud requiere autenticación. El cliente debe proporcionar credenciales válidas (Bearer Token, API Key).
+        '403':
+          description: Forbidden. El servidor entiende la solicitud, pero no tiene permiso para ejecutarla (a diferencia del 401, las credenciales no ayudarían).
+        '404':
+          description: Not Found. El servidor no puede encontrar el recurso solicitado.
+        '500':
+          description: Internal Server Error. El servidor ha encontrado una condición inesperada que le impide completar la solicitud.
+        '502':
+          description: Bad Gateway. El servidor, actuando como puerta de enlace o proxy, recibió una respuesta no válida del servidor upstream.
+        '503':
+          description: Service Unavailable. El servidor no puede manejar la solicitud temporalmente, generalmente debido a mantenimiento o sobrecarga.
+        '504':
+          description: Gateway Timeout. El servidor, actuando como puerta de enlace o proxy, no recibió una respuesta a tiempo del servidor upstream.
+      security:
+        - apiKeyAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
